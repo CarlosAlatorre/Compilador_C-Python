@@ -1,0 +1,10 @@
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\bin\Algo\Compilador.exe.config
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\bin\Algo\Compilador.exe
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\bin\Algo\Compilador.pdb
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.Form1.resources
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.Properties.Resources.resources
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.Texto.resources
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.csproj.GenerateResource.Cache
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.exe
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.pdb
+C:\Users\Toshiba\Google Drive\ITH\SEXTO SEMESTRE\AUTOMATAS Y LENGUAJES FORMALES\LEXICO\Compilador\Compilador\obj\Algo\Compilador.csprojResolveAssemblyReference.cache
