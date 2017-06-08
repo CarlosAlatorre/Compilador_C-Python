@@ -20,7 +20,22 @@ namespace Compilador
             public string lexema;
             public string dato;
         }
+
+        public struct MetodosDeclarados
+        {
+            public string nombreDelMetodo;
+        }
+
+        public struct ParametrosDeMetodos
+        {
+            public string tipoDeVariable;
+            public string variable;
+            public string metodoDeLaVariable;
+        }
+
         public static List<VarDeclarada>  list_varDeclarada = new List<VarDeclarada>();
+        public static List<MetodosDeclarados> list_metodosDeclarados = new List<MetodosDeclarados>();
+        public static List<ParametrosDeMetodos> list_parametrosDeMetodos = new List<ParametrosDeMetodos>();
 
         public string errores;
         public int bandera = 0;
@@ -34,10 +49,13 @@ namespace Compilador
         public bool band_ComprobarVar = true;
         public bool band_ComprobarExistencia = false;
         public bool band_datoPerdido = false;
+        public string nombreMetodo;
 
         public void Sintactic()
         {
             list_varDeclarada.Clear();
+            list_metodosDeclarados.Clear();
+            list_parametrosDeMetodos.Clear();
 
             libreria();
 
@@ -168,7 +186,7 @@ namespace Compilador
             }
             else
             {
-                //no pasa nada
+                
             }
 
 
@@ -223,7 +241,10 @@ namespace Compilador
                     x++;
                     if (milista2[x].token == -60) // ID
                     {
-                        x++;
+                        buscarExistenciaDelMetodo(milista2[x].lexema, false);
+                        nombreMetodo = milista2[x].lexema;
+
+                         x++;
                         if (milista2[x].token == -6) // (
                         {
                             x++;
@@ -302,48 +323,59 @@ namespace Compilador
 
         public void Metratrib2()
         {
-            if(milista2[x].token == -6) // (
+            if (milista2[x].token == -60)
             {
+                buscarExistenciaDelMetodo(milista2[x].lexema, false);
                 x++;
-                Parametros();
-                x++;
-                if (milista2[x].token == -7) // )
+                if (milista2[x].token == -6) // (
                 {
                     x++;
-                    if (milista2[x].token == -10) // {
+                    Parametros();
+                    //x++;
+                    if (milista2[x].token == -7) // )
                     {
                         x++;
-                        Sentencias();
-                        x++;
-                        if (milista2[x].token == -11) // }
+                        if (milista2[x].token == -10) // {
                         {
-                            Metratrib();
+                            x++;
+                            Sentencias();
+                            //x++;
+                            if (milista2[x].token == -11) // }
+                            {
+                                x++;
+                                Metratrib();
+                            }
+                            else
+                            {
+                                bandera = 1;
+                                errores = "Error: Se esperaba un }";
+                            }
                         }
                         else
                         {
                             bandera = 1;
-                            errores = "Error: Se esperaba un }";
+                            errores = "Error: Se esperaba un {";
                         }
                     }
                     else
                     {
                         bandera = 1;
-                        errores = "Error: Se esperaba un {";
+                        errores = "Error: Se esperaba un )";
                     }
                 }
                 else
                 {
-                    bandera = 1;
-                    errores = "Error: Se esperaba un )";
+                    x++;
+                    Asignacion();
+                    //x++;
+                    Varias_asig();
+                    Metratrib();
                 }
             }
             else
             {
-                x++;
-                Asignacion();
-                //x++;
-                Varias_asig();
-                Metratrib();
+                bandera = 1;
+                errores = "Error: Se esperaba un ID";
             }
             if (bandera == 1 && exito == 1)
             {
@@ -399,6 +431,8 @@ namespace Compilador
                 x++;
                 if(milista2[x].token == -60)
                 {
+
+
                     x++;
                     if(milista2[x].token == -43)
                     {
@@ -464,7 +498,7 @@ namespace Compilador
                     }
 
                 }
-                else if (milista2[x + 1].token == -5) // pregunta si el que sigue es .
+                else if (milista2[x + 1].token == -6) // pregunta si el que sigue es )
                 {
                     Invocacion();
                     Sentencias();
@@ -596,49 +630,33 @@ namespace Compilador
 
         public void Invocacion() //LISTOOO
         {
-            if(milista2[x].token == -60) //ID
+            if (milista2[x].token == -60) //ID
             {
+                buscarExistenciaDelMetodo(milista2[x].lexema, true);
                 x++;
-                if(milista2[x].token == -5) // .
+                if (milista2[x].token == -6) // (
                 {
                     x++;
-                    if(milista2[x].token == -60) // ID
+                    Par2();
+
+                    if (milista2[x].token == -7) // )
                     {
                         x++;
-                        if(milista2[x].token == -6) // (
+                        if (milista2[x].token == -45)
                         {
                             x++;
-                            Par2();
-                            
-                            if(milista2[x].token == -7) // )
-                            {
-                                x++;
-                                if(milista2[x].token == -45)
-                                {
-                                    x++;
-                                }
-                            }
-                            else
-                            {
-                                bandera = 1;
-                                errores = "Error: Falta )";
-                            }
-                        }
-                        else
-                        {
-                            bandera = 1;
-                            errores = "Error: Falta (";
                         }
                     }
                     else
                     {
                         bandera = 1;
-                        errores = "Error: Falta ID";
+                        errores = "Error: Falta )";
                     }
                 }
                 else
                 {
-                    // no hay pedo
+                    bandera = 1;
+                    errores = "Error: Falta (";
                 }
             }
             else
@@ -646,6 +664,7 @@ namespace Compilador
                 bandera = 1;
                 errores = "Error: Falta ID";
             }
+       
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
@@ -657,10 +676,10 @@ namespace Compilador
         public void Par2() //LISTOO
         {
             
-            if(milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3)
+            if(milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3 || milista2[x].token == -49)
             {
                 Valor();
-                x++;
+                //x++;
                 if(milista2[x].token == -43)
                 {
                     Par2();
@@ -1234,6 +1253,57 @@ namespace Compilador
             Ddato = null;
             Dtipo = null;
             Dlexema = null;
+        }
+
+        public void agregarNombreMetodoParaLista( string nombreMetodo )
+        {
+            //Agregar el nombre del metodo a la lista de metodos declarados
+            var li = new MetodosDeclarados();
+            li.nombreDelMetodo = milista2[x].lexema;
+
+            list_metodosDeclarados.Add(li);
+        }
+
+        public void buscarExistenciaDelMetodo( string nombreMetodo, bool soloBuscarExistencia)
+        {
+            bool declarado = false;
+
+            for (int i = 0; i < list_metodosDeclarados.Count; i++)
+            {
+
+                if (list_metodosDeclarados[i].nombreDelMetodo == nombreMetodo)
+                {
+                    MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "' ya está DECLARADO!");
+                    declarado = true;
+                    break;
+                }
+               
+            }
+
+            if (!declarado)
+            {
+                if (soloBuscarExistencia)
+                {
+                    MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "'no está DECLARADO");
+                }
+                else
+                {
+                    agregarNombreMetodoParaLista(nombreMetodo);
+                }
+
+            }
+        }
+
+        public void agregarParametrosDelMetodoParaLaLista( string nombreMetodo, string tipoDeVariable, string nombreVariable )
+        {
+            // Agregar el nombre del metodo, tipo de variable y el nombre de variable a nuestra lista
+          
+            var li = new ParametrosDeMetodos();
+            li.metodoDeLaVariable = nombreMetodo;
+            li.tipoDeVariable = tipoDeVariable;
+            li.variable = nombreVariable;
+
+            list_parametrosDeMetodos.Add(li);
         }
     }
 }
