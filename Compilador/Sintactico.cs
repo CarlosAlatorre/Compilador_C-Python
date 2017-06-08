@@ -40,7 +40,7 @@ namespace Compilador
         public string errores;
         public int bandera = 0;
         public int exito = 1;
-        public int x;
+        public int x, numeroDeParametros = 0;
         public DataGridView GRID_ERRORES;
         public DataGridView GRID_VARS;
         public string Dtipo;
@@ -48,8 +48,8 @@ namespace Compilador
         public string Ddato;
         public bool band_ComprobarVar = true;
         public bool band_ComprobarExistencia = false;
-        public bool band_datoPerdido = false;
-        public string nombreMetodo;
+        public bool band_datoPerdido = false, esAsignacion = false;
+        public string nombreMetodo, tipoDeVariableAntesDeAsignar;
 
         public void Sintactic()
         {
@@ -326,6 +326,7 @@ namespace Compilador
             if (milista2[x].token == -60)
             {
                 buscarExistenciaDelMetodo(milista2[x].lexema, false);
+                nombreMetodo = milista2[x].lexema;
                 x++;
                 if (milista2[x].token == -6) // (
                 {
@@ -431,7 +432,7 @@ namespace Compilador
                 x++;
                 if(milista2[x].token == -60)
                 {
-
+                    agregarParametrosDelMetodoParaLaLista(nombreMetodo, milista2[x - 1].lexema, milista2[x].lexema);
 
                     x++;
                     if(milista2[x].token == -43)
@@ -484,10 +485,12 @@ namespace Compilador
             {
                 if (milista2[x + 1].token == -37) // // pregunta si el que sigue es =
                 {
+                   
                     x++;
                     Asignacion();
                     if (milista2[x].token == -45)
                     {
+                        esAsignacion = false;
                         x++;
                         Sentencias();
                     }
@@ -603,6 +606,20 @@ namespace Compilador
             //pregunta si es ID NUMERO O DECIMAL
             if (milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3 || milista2[x].token == -49)
             {
+                //Comprobar si este token es del mismo tipo que el token antes de asignacion
+                if (esAsignacion)
+                {
+
+                    if (tipoDeVariableAntesDeAsignar != obtenerTipoDeVariablePorToken(milista2[x].token))
+                    {
+                        MessageBox.Show("ERROR: Compatibilidad de tipos, tiene que ser de tipo '" + tipoDeVariableAntesDeAsignar + "'");
+                    }
+                    
+                
+                }
+                /////////////////
+
+
                 x++;
                 //pregunta si es un operador + - * / y si no, resta 1 a x porque no entra
                 if(milista2[x].token == -13 || milista2[x].token == -15 || milista2[x].token == -19 || milista2[x].token == -21)
@@ -632,7 +649,9 @@ namespace Compilador
         {
             if (milista2[x].token == -60) //ID
             {
+
                 buscarExistenciaDelMetodo(milista2[x].lexema, true);
+                nombreMetodo = milista2[x].lexema;
                 x++;
                 if (milista2[x].token == -6) // (
                 {
@@ -678,14 +697,18 @@ namespace Compilador
             
             if(milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3 || milista2[x].token == -49)
             {
+                comprobarTipoDeParametro(nombreMetodo, obtenerTipoDeVariablePorToken(milista2[x].token), numeroDeParametros);
                 Valor();
                 //x++;
                 if(milista2[x].token == -43)
                 {
+                    numeroDeParametros++;
+                    x++;
                     Par2();
                 }
                 else
                 {
+                    numeroDeParametros = 0;
                     // No hay pedo..
                 }
             }else
@@ -937,6 +960,9 @@ namespace Compilador
             {
                 band_ComprobarVar = false;
                 Buscar_Var(milista2[x - 1].lexema);
+
+                tipoDeVariableAntesDeAsignar = obtenerTipoDeVariableDeID(milista2[x - 1].lexema);
+                esAsignacion = true;
 
                 x++;
                 Valor();
@@ -1273,7 +1299,10 @@ namespace Compilador
 
                 if (list_metodosDeclarados[i].nombreDelMetodo == nombreMetodo)
                 {
-                    MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "' ya está DECLARADO!");
+                    if (!soloBuscarExistencia)
+                    {
+                        MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "' ya está DECLARADO!");
+                    }
                     declarado = true;
                     break;
                 }
@@ -1304,6 +1333,61 @@ namespace Compilador
             li.variable = nombreVariable;
 
             list_parametrosDeMetodos.Add(li);
+        }
+
+        public void comprobarTipoDeParametro( string nombreMetodo, string tipoDeParametro, int numeroDeParametro )
+        {
+
+            for (int i = 0; i < list_parametrosDeMetodos.Count; i++)
+            {
+
+                if (list_parametrosDeMetodos[i].metodoDeLaVariable == nombreMetodo)
+                {
+                    if (list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable != tipoDeParametro)
+                    {
+                        MessageBox.Show("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
+                    }
+                    break;
+                }
+
+            }
+        }
+
+        public string obtenerTipoDeVariablePorToken( int tokenDeVariable )
+        {
+            string tipo = "";
+            if (tokenDeVariable == -2 || tokenDeVariable == -3)
+            {
+                tipo = "INT";
+            }
+            else if (tokenDeVariable == -49)
+            {
+                tipo =  "STRING";
+            }
+            else if (tokenDeVariable == -60)
+            {
+                tipo = obtenerTipoDeVariableDeID(milista2[x].lexema);
+            }
+
+            return tipo;
+        }
+
+        public string obtenerTipoDeVariableDeID( string nombreVariable )
+        {
+            string tipo = "";
+
+            for (int i = 0; i < list_varDeclarada.Count ; i++)
+            {
+
+                if (list_varDeclarada[i].lexema == nombreVariable)
+                {
+                    tipo = list_varDeclarada[i].tipo;
+                    break;
+                }
+
+            }
+
+            return tipo;
         }
     }
 }

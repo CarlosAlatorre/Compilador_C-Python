@@ -30,7 +30,6 @@ namespace Compilador
         private void Panel_cerrar_MouseHover(object sender, EventArgs e)
         {
             Panel_cerrar.BackgroundImage = Compilador.Properties.Resources.cerrar1;
-
         }
 
         private void Panel_compilar_MouseHover(object sender, EventArgs e)
@@ -93,12 +92,14 @@ namespace Compilador
             Panel_guardar.BackgroundImage = Compilador.Properties.Resources.guardar1;
         }
 
-        
-
-        
-
-
-
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+            /*Panel_cerrar.Location = new Point(this.Width - Panel_cerrar.Width, 6);
+            Lbl_nombre.Location = new Point(this.Width - Lbl_nombre.Width, 30);
+            Lbl_fechahora.Text = DateTime.Now.ToLongDateString().ToString();
+            Lbl_hora.Text = DateTime.Now.ToLongTimeString().ToString();
+            Time_hora.Start();*/
+        }
 
 
         

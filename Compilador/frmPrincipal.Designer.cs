@@ -216,6 +216,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmPrincipal";
             this.Text = "Compilador";
+            this.Load += new System.EventHandler(this.frmPrincipal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Listatoken)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rtb_errores)).EndInit();
             this.Panel_cabecera.ResumeLayout(false);
