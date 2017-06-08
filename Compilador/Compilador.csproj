@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Compilador</RootNamespace>
     <AssemblyName>Compilador</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,6 +63,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrincipal.Designer.cs">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lexico.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +83,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPrincipal.resx">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -84,6 +94,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Texto.resx">
       <DependentUpon>Texto.cs</DependentUpon>
@@ -100,6 +111,120 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Abrir_NA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\boton_abrir0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\boton_abrir1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cambiar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CARGAR_NAA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cerrar0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cerrar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\compilar0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\compilar11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cropped-2548-2375-thickbox.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Enter Key Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Enter Key-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\guardar_como0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\guardar_como1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUARDAR_COMON.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUARDAR_COMON1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\guardar0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\guardar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Img_Principal2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insertarr0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insertarr1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\limpiar0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\limpiar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New Window-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salir1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save as Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save as-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Start-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
