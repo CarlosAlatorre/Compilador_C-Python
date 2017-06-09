@@ -1326,12 +1326,10 @@ namespace Compilador
         public void agregarParametrosDelMetodoParaLaLista( string nombreMetodo, string tipoDeVariable, string nombreVariable )
         {
             // Agregar el nombre del metodo, tipo de variable y el nombre de variable a nuestra lista
-          
             var li = new ParametrosDeMetodos();
             li.metodoDeLaVariable = nombreMetodo;
             li.tipoDeVariable = tipoDeVariable;
             li.variable = nombreVariable;
-
             list_parametrosDeMetodos.Add(li);
         }
 

@@ -16,6 +16,8 @@ namespace Compilador
         {
             InitializeComponent();
         }
+
+
         
         private void examinarToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -33,7 +35,7 @@ namespace Compilador
             var childForm = new Texto();
             childForm.Text = "Nueva Pestaña ";
             childForm.MdiParent = this;
-
+            
             //child Form will now hold a reference value to the tab control
             childForm.TabCtrl = tabControl1;
 
@@ -106,6 +108,11 @@ namespace Compilador
         }
 
         private void GRID_ER_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }

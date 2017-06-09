@@ -44,6 +44,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScintillaNET">
+      <HintPath>..\..\Users\litoch\Desktop\CMPI\Compilador\Compilador\Resources\ScintillaNET\src\ScintillaNET\obj\Debug\ScintillaNET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

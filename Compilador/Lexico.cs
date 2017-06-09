@@ -351,7 +351,10 @@ namespace Compilador
 
         public void Crear_token()
         {
-            
+            GRID_TOKENS.Columns.Add("Column", "Test");
+            GRID_TOKENS.Columns.Add("Column", "Test");
+            GRID_TOKENS.Columns.Add("Column", "Test");
+            GRID_TOKENS.Columns.Add("Column", "Test");
             string TIPO = Encontrar_Tipo(TOKEN);
             Token objtoken = new Token(TIPO, TOKEN, LEXEMA, LINEA);
             milista.Add(objtoken);

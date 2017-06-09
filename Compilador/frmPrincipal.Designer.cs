@@ -72,6 +72,7 @@
             this.Dgv_Listatoken.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.Dgv_Listatoken.Size = new System.Drawing.Size(461, 444);
             this.Dgv_Listatoken.TabIndex = 14;
+            this.Dgv_Listatoken.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Listatoken_CellContentClick);
             // 
             // Rtb_errores
             // 
@@ -137,6 +138,7 @@
             this.Panel_Limpiar.Name = "Panel_Limpiar";
             this.Panel_Limpiar.Size = new System.Drawing.Size(50, 50);
             this.Panel_Limpiar.TabIndex = 1;
+            this.Panel_Limpiar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel_Limpiar_MouseClick);
             this.Panel_Limpiar.MouseLeave += new System.EventHandler(this.Panel_Limpiar_MouseLeave);
             this.Panel_Limpiar.MouseHover += new System.EventHandler(this.Panel_Limpiar_MouseHover);
             // 
@@ -149,6 +151,7 @@
             this.Panel_compilar.Name = "Panel_compilar";
             this.Panel_compilar.Size = new System.Drawing.Size(50, 50);
             this.Panel_compilar.TabIndex = 1;
+            this.Panel_compilar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel_compilar_MouseClick);
             this.Panel_compilar.MouseLeave += new System.EventHandler(this.Panel_compilar_MouseLeave);
             this.Panel_compilar.MouseHover += new System.EventHandler(this.Panel_compilar_MouseHover);
             // 
@@ -161,6 +164,7 @@
             this.Panel_nuevo.Name = "Panel_nuevo";
             this.Panel_nuevo.Size = new System.Drawing.Size(50, 50);
             this.Panel_nuevo.TabIndex = 0;
+            this.Panel_nuevo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel_nuevo_MouseClick);
             this.Panel_nuevo.MouseLeave += new System.EventHandler(this.Panel_nuevo_MouseLeave);
             this.Panel_nuevo.MouseHover += new System.EventHandler(this.Panel_nuevo_MouseHover);
             // 
@@ -173,6 +177,7 @@
             this.Panel_abrir.Name = "Panel_abrir";
             this.Panel_abrir.Size = new System.Drawing.Size(50, 50);
             this.Panel_abrir.TabIndex = 1;
+            this.Panel_abrir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel_abrir_MouseClick);
             this.Panel_abrir.MouseLeave += new System.EventHandler(this.Panel_abrir_MouseLeave);
             this.Panel_abrir.MouseHover += new System.EventHandler(this.Panel_abrir_MouseHover);
             // 
@@ -185,6 +190,7 @@
             this.Panel_guardarcomo.Name = "Panel_guardarcomo";
             this.Panel_guardarcomo.Size = new System.Drawing.Size(50, 50);
             this.Panel_guardarcomo.TabIndex = 2;
+            this.Panel_guardarcomo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel_guardarcomo_MouseClick);
             this.Panel_guardarcomo.MouseLeave += new System.EventHandler(this.Panel_guardarcomo_MouseLeave);
             this.Panel_guardarcomo.MouseHover += new System.EventHandler(this.Panel_guardarcomo_MouseHover);
             // 
@@ -197,6 +203,7 @@
             this.Panel_guardar.Name = "Panel_guardar";
             this.Panel_guardar.Size = new System.Drawing.Size(50, 50);
             this.Panel_guardar.TabIndex = 1;
+            this.Panel_guardar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Panel_guardar_MouseClick);
             this.Panel_guardar.MouseLeave += new System.EventHandler(this.Panel_guardar_MouseLeave);
             this.Panel_guardar.MouseHover += new System.EventHandler(this.Panel_guardar_MouseHover);
             // 
