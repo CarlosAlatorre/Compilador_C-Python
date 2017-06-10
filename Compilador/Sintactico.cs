@@ -1468,11 +1468,18 @@ namespace Compilador
 
                 if (list_parametrosDeMetodos[i].metodoDeLaVariable == nombreMetodo)
                 {
-                    if (list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable != tipoDeParametro)
+                    try
                     {
-                        MessageBox.Show("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
+                        if (list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable != tipoDeParametro)
+                        {
+                            MessageBox.Show("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
+                        }
+                        break;
                     }
-                    break;
+                    catch (ArgumentOutOfRangeException e)
+                    {
+                        MessageBox.Show("Error: Pusiste un parametro de más en la llamada del metodo");
+                    }
                 }
 
             }
