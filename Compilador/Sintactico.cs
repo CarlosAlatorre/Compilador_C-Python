@@ -56,7 +56,7 @@ namespace Compilador
         public string Ddato;
         public bool band_ComprobarVar = true;
         public bool band_ComprobarExistencia = false;
-        public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false;
+        public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false, asignacionEnDeclaracion = false;
         public string nombreMetodo, tipoDeVariableAntesDeAsignar;
 
         public void Sintactic()
@@ -322,6 +322,7 @@ namespace Compilador
                 {
                     if (milista2[x].token == -132 || milista2[x].token == -133 || milista2[x].token == -134 || milista2[x].token == -135 || milista2[x].token == -136) // TIPO
                     {
+                        Dtipo = milista2[x].lexema;
                         x++;
                         Metratrib2();
                     }
@@ -350,8 +351,11 @@ namespace Compilador
         {
             if (milista2[x].token == -60)
             {
-                buscarExistenciaDelMetodo(milista2[x].lexema, false);
-                nombreMetodo = milista2[x].lexema;
+                if(milista2[x+1].token != -45 && milista2[x+1].token != -37)
+                {
+                    buscarExistenciaDelMetodo(milista2[x].lexema, false);
+                    nombreMetodo = milista2[x].lexema;
+                }
                 x++;
                 if (milista2[x].token == -6) // (
                 {
@@ -391,11 +395,17 @@ namespace Compilador
                 }
                 else
                 {
+                    Dlexema = milista2[x - 1].lexema;
+                    asignacionEnDeclaracion = true;
+                    agregarList();
                     //x++;
                     Asignacion();
                     //x++;
                     Varias_asig();
                     Metratrib();
+
+                    asignacionEnDeclaracion = false;
+                    Dtipo = null;
                 }
             }
             else
@@ -418,9 +428,11 @@ namespace Compilador
                 x++;
                 if(milista2[x].token == -60) // ID
                 {
+                    Dlexema = milista2[x].lexema;
+                    agregarList();
                     x++;
                     Asignacion();
-                    x++;
+                    //x++;
                     Varias_asig();
                 }
                 else
@@ -1281,7 +1293,7 @@ namespace Compilador
 
             if(band_ComprobarVar == false)
             {
-                if(band_ComprobarExistencia == false)
+                if(!band_ComprobarExistencia && !asignacionEnDeclaracion)
                 {
                     MessageBox.Show("ERROR: La variable " + Plexema + " NO esta declarada!");
                     band_datoPerdido = true;
@@ -1305,7 +1317,10 @@ namespace Compilador
             
             //restar
             Ddato = null;
-            Dtipo = null;
+            if (!asignacionEnDeclaracion)
+            {
+                Dtipo = null;
+            }
             Dlexema = null;
         }
 
