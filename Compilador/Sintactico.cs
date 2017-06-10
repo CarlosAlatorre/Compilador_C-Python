@@ -31,16 +31,23 @@ namespace Compilador
             public string tipoDeVariable;
             public string variable;
             public string metodoDeLaVariable;
+            //public int numeroDeParametros;
+        }
+        public struct claseDeclarada
+        {
+            public string nombreDeClase;
         }
 
         public static List<VarDeclarada>  list_varDeclarada = new List<VarDeclarada>();
         public static List<MetodosDeclarados> list_metodosDeclarados = new List<MetodosDeclarados>();
         public static List<ParametrosDeMetodos> list_parametrosDeMetodos = new List<ParametrosDeMetodos>();
+        public static List<ParametrosDeMetodos> list_parametrosGuardadosTemporalmente = new List<ParametrosDeMetodos>();
+        public static List<claseDeclarada> list_clasesDeclaradas = new List<claseDeclarada>();
 
         public string errores;
         public int bandera = 0;
         public int exito = 1;
-        public int x, numeroDeParametros = 0;
+        public int x, numeroDeParametros = 0, numeroDeParametrosDelMetodo = 0, punteroGuardado;
         public DataGridView GRID_ERRORES;
         public DataGridView GRID_VARS;
         public DataGridView GRID_TABLE_SYMBOLS;
@@ -49,7 +56,7 @@ namespace Compilador
         public string Ddato;
         public bool band_ComprobarVar = true;
         public bool band_ComprobarExistencia = false;
-        public bool band_datoPerdido = false, esAsignacion = false;
+        public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false;
         public string nombreMetodo, tipoDeVariableAntesDeAsignar;
 
         public void Sintactic()
@@ -57,6 +64,7 @@ namespace Compilador
             list_varDeclarada.Clear();
             list_metodosDeclarados.Clear();
             list_parametrosDeMetodos.Clear();
+            list_clasesDeclaradas.Clear();
 
             libreria();
 
@@ -163,11 +171,26 @@ namespace Compilador
                     if(milista2[x].token == -60) // id
                     {
                         GRID_TABLE_SYMBOLS.Rows.Add("class", milista2[x].lexema);
+                        buscarExistenciaDeClase(milista2[x].lexema, false);
                         x++;
-                        if(milista2[x].token == -60) // herencia
+                        if (milista2[x].token == -44) // herencia
                         {
                             x++;
-                            Clases2();
+                            if (milista2[x].token == -60)
+                            {
+
+                                //Verificar si la clase que está heredando existe
+                                buscarExistenciaDeClase(milista2[x].lexema, true);
+
+                                x++;
+                                Clases2();
+                            }
+                            else
+                            {
+                                bandera = 1;
+                                errores = "Error: Se esperaba una ID de clase";
+                            }
+                            
                         }
                         else
                         {
@@ -368,7 +391,7 @@ namespace Compilador
                 }
                 else
                 {
-                    x++;
+                    //x++;
                     Asignacion();
                     //x++;
                     Varias_asig();
@@ -429,13 +452,12 @@ namespace Compilador
         public void Parametros() // LISTOOO
         {
             // TIPOS
-            if(milista2[x].token == -132 || milista2[x].token == -133 || milista2[x].token == -134 || milista2[x].token == -135 || milista2[x].token == -136)
+            if (milista2[x].token == -132 || milista2[x].token == -133 || milista2[x].token == -134 || milista2[x].token == -135 || milista2[x].token == -136)
             {
                 x++;
                 if(milista2[x].token == -60)
                 {
                     agregarParametrosDelMetodoParaLaLista(nombreMetodo, milista2[x - 1].lexema, milista2[x].lexema);
-
                     x++;
                     if(milista2[x].token == -43)
                     {
@@ -444,7 +466,7 @@ namespace Compilador
                     }
                     else
                     {
-                        //x--;
+                        // no pasa nada
                     }
                 }
                 else
@@ -940,7 +962,11 @@ namespace Compilador
                 }
                 else
                 {
-                    //no hay pedo
+                    if (milista2[x].token == -43)// ,
+                    {
+                        x++;
+                        IDASIGS();
+                    }
                 }
             }
             else
@@ -971,8 +997,8 @@ namespace Compilador
             }
             else
             {
-                bandera = 1;
-                errores = "Error: Se esperaba un =";
+                //bandera = 1;
+                //errores = "Error: Se esperaba un =";
             }
 
             if (bandera == 1 && exito == 1)
@@ -1303,7 +1329,71 @@ namespace Compilador
                 {
                     if (!soloBuscarExistencia)
                     {
-                        MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "' ya está DECLARADO!");
+                        punteroGuardado = x;
+                        x++;
+                        x++;
+
+                        parametrosTemporales();
+
+                        x = punteroGuardado;
+
+                        //Esto es para buscar el parametro ya creado
+                        for (int j = 0; j < list_parametrosDeMetodos.Count; j++)
+                        {
+
+                            if (list_parametrosDeMetodos[j].metodoDeLaVariable == nombreMetodo)
+                            {
+                                
+                                int jj = j;
+                                int numeroDeParametrosDelMetodoYaDeclarado = 0;
+
+                                //Encontramos el numero de parametros del metodo que ya está declarado
+                                try
+                                {
+                                    while (list_parametrosDeMetodos[jj].metodoDeLaVariable == nombreMetodo)
+                                    {
+                                        numeroDeParametrosDelMetodoYaDeclarado++;
+                                        jj++;
+                                    }
+                                }catch(ArgumentOutOfRangeException e)
+                                {
+
+                                }
+
+                                //Antes de verificar el tipo de parametros checamos si tienen el mismo numero de parametros
+                                //Si no tienen el mismo numero de parametros entonces ya es un metodo sobrecargado
+                                if (numeroDeParametrosDelMetodoYaDeclarado == numeroDeParametrosDelMetodo + 1)
+                                {
+
+                                    for (int k = 0; k <= numeroDeParametrosDelMetodo; k++)
+                                    {
+                                        //Verificamos si tienen algun parametro diferente para que sea un metodo sobrecargado
+                                        if (list_parametrosDeMetodos[j].tipoDeVariable != list_parametrosGuardadosTemporalmente[k].tipoDeVariable)
+                                        {
+                                            metodoSobrecargado = true;
+                                            break;
+                                        }
+                                        j++;
+                                    }
+                                }
+                                else
+                                {
+                                    metodoSobrecargado = true;
+                                }
+
+                                break;
+                            }
+                        
+                        }
+                        if (!metodoSobrecargado)
+                        {
+                            MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "' ya está declarado con los mismos parametros, intente poner parametros diferentes");
+
+                        }
+                        metodoSobrecargado = false;
+                        numeroDeParametrosDelMetodo = 0;
+                        list_parametrosGuardadosTemporalmente.Clear();
+
                     }
                     declarado = true;
                     break;
@@ -1332,6 +1422,7 @@ namespace Compilador
             li.metodoDeLaVariable = nombreMetodo;
             li.tipoDeVariable = tipoDeVariable;
             li.variable = nombreVariable;
+            //li.numeroDeParametros = numeroDeParametrosDelMetodo;
             list_parametrosDeMetodos.Add(li);
             GRID_TABLE_SYMBOLS.Rows.Add("parametro("+ tipoDeVariable + ")", nombreVariable);
         }
@@ -1389,6 +1480,84 @@ namespace Compilador
             }
 
             return tipo;
+        }
+
+        public void parametrosTemporales() // LISTOOO
+        {
+            // TIPOS
+            if (milista2[x].token == -132 || milista2[x].token == -133 || milista2[x].token == -134 || milista2[x].token == -135 || milista2[x].token == -136)
+            {
+                //Agregar el tipo de parametros a la lista temporal
+                var li = new ParametrosDeMetodos();
+                li.tipoDeVariable = milista2[x].lexema;
+                list_parametrosGuardadosTemporalmente.Add(li);
+
+                x++;
+                if (milista2[x].token == -60)
+                {
+                    x++;
+                    if (milista2[x].token == -43)
+                    {
+                        numeroDeParametrosDelMetodo++;
+                        x++;
+                        parametrosTemporales();
+                    }
+                    else
+                    {
+                        // no pasa nada
+                    }
+                }
+                else
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un ID";
+                }
+            }
+            else
+            {
+                // no pasa nada
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                MessageBox.Show(" " + errores);
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
+        }
+
+        public void buscarExistenciaDeClase(string nombreClase, bool esClaseHeredara)
+        {
+            bool claseDeclarada = false;
+            for (int i = 0; i < list_clasesDeclaradas.Count; i++)
+            {
+               
+                if(list_clasesDeclaradas[i].nombreDeClase == nombreClase)
+                {
+                    claseDeclarada = true;
+                    break;
+                }
+
+            }
+
+            if (!claseDeclarada)
+            {
+                //Agregamos la clase a la lista de clases declaradas
+                var clase = new claseDeclarada();
+                clase.nombreDeClase = nombreClase;
+                list_clasesDeclaradas.Add(clase);
+            }else
+            {
+                if (!esClaseHeredara)
+                {
+                    MessageBox.Show("ERROR: La clase '" + nombreClase + "' ya está declarada!");
+                }
+            }
+
+            if (esClaseHeredara && !claseDeclarada)
+            {
+                MessageBox.Show("ERROR: La clase '" + nombreClase + "' que quieres heredar no existe!");
+            }
+
         }
     }
 }

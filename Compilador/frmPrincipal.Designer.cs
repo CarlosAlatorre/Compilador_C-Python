@@ -168,7 +168,7 @@
             this.Panel_cabecera.Dock = System.Windows.Forms.DockStyle.Top;
             this.Panel_cabecera.Location = new System.Drawing.Point(0, 0);
             this.Panel_cabecera.Name = "Panel_cabecera";
-            this.Panel_cabecera.Size = new System.Drawing.Size(1370, 61);
+            this.Panel_cabecera.Size = new System.Drawing.Size(1300, 61);
             this.Panel_cabecera.TabIndex = 16;
             // 
             // Panel_cerrar
