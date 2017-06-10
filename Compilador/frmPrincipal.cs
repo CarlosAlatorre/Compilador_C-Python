@@ -323,6 +323,8 @@ namespace Compilador
             llamar.GRID_TABLE_SYMBOLS = GRID_TABLE_SYMBOLS;
             //llamar.GRID_VARS = GRID_VAR;
             llamar.Sintactic();
+            list_erroresSemanticos.DataSource = llamar.lista_erroresSemanticos;
+
         }
 
         private void Panel_abrir_MouseClick(object sender, MouseEventArgs e)

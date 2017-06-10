@@ -29,5 +29,9 @@ C:\Compilador_C-Python\Compilador\obj\Debug\Compilador.Properties.Resources.reso
 C:\Compilador_C-Python\Compilador\obj\Debug\Compilador.Texto.resources
 C:\Compilador_C-Python\Compilador\obj\Debug\Compilador.csproj.GenerateResource.Cache
 C:\Compilador_C-Python\Compilador\obj\Debug\Compilador.frmPrincipal.resources
+<<<<<<< HEAD
+=======
+C:\Compilador_C-Python\Compilador\bin\Debug\ScintillaNET.dll
+>>>>>>> origin/master
 C:\Compilador_C-Python\Compilador\bin\Debug\ScintillaNET.pdb
 C:\Compilador_C-Python\Compilador\bin\Debug\ScintillaNET.xml

@@ -44,9 +44,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScintillaNET">
-      <HintPath>..\..\Users\litoch\Desktop\CMPI\Compilador\Compilador\Resources\ScintillaNET\src\ScintillaNET\obj\Debug\ScintillaNET.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -228,6 +225,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Start-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Users\Luis Bahena\Desktop\Compilador\Compilador\Compilador\Resources\ScintillaNET\src\ScintillaNET\ScintillaNET.csproj">
+      <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
+      <Name>ScintillaNET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

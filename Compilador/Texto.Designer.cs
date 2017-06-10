@@ -133,9 +133,9 @@
             this.Column3,
             this.Column4});
             this.GRID_ERR.Dock = System.Windows.Forms.DockStyle.Right;
-            this.GRID_ERR.Location = new System.Drawing.Point(893, 0);
+            this.GRID_ERR.Location = new System.Drawing.Point(907, 0);
             this.GRID_ERR.Name = "GRID_ERR";
-            this.GRID_ERR.Size = new System.Drawing.Size(262, 448);
+            this.GRID_ERR.Size = new System.Drawing.Size(248, 448);
             this.GRID_ERR.TabIndex = 7;
             // 
             // Column3
@@ -155,7 +155,7 @@
             this.editor.Location = new System.Drawing.Point(0, 0);
             this.editor.Multiline = true;
             this.editor.Name = "editor";
-            this.editor.Size = new System.Drawing.Size(893, 251);
+            this.editor.Size = new System.Drawing.Size(907, 251);
             this.editor.TabIndex = 8;
             // 
             // GRID_VAR
@@ -166,7 +166,7 @@
             this.LEXEMA,
             this.DATO});
             this.GRID_VAR.Dock = System.Windows.Forms.DockStyle.Right;
-            this.GRID_VAR.Location = new System.Drawing.Point(468, 251);
+            this.GRID_VAR.Location = new System.Drawing.Point(482, 251);
             this.GRID_VAR.Name = "GRID_VAR";
             this.GRID_VAR.Size = new System.Drawing.Size(425, 197);
             this.GRID_VAR.TabIndex = 9;
