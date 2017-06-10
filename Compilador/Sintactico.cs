@@ -43,6 +43,7 @@ namespace Compilador
         public int x, numeroDeParametros = 0;
         public DataGridView GRID_ERRORES;
         public DataGridView GRID_VARS;
+        public DataGridView GRID_TABLE_SYMBOLS;
         public string Dtipo;
         public string Dlexema;
         public string Ddato;
@@ -119,7 +120,7 @@ namespace Compilador
                         }
                         else // no recibe el id
                         {
-                            errores = "Error: Se esperaba un identificado";
+                            errores = "Error: Se esperaba un identificador";
                             bandera = 1;
                         }
                     }// si no recibe el punto entonces:
@@ -161,6 +162,7 @@ namespace Compilador
                     x++;
                     if(milista2[x].token == -60) // id
                     {
+                        GRID_TABLE_SYMBOLS.Rows.Add("class", milista2[x].lexema);
                         x++;
                         if(milista2[x].token == -60) // herencia
                         {
@@ -1179,8 +1181,7 @@ namespace Compilador
         }
 
         public void DECASIG() // LISTO
-        {
-            
+        {   
             if(milista2[x].token == -132 || milista2[x].token == -133 || milista2[x].token == -134 || milista2[x].token == -135 || milista2[x].token == -136) // p
             {
                 Declaraciones();
@@ -1273,7 +1274,8 @@ namespace Compilador
             li.dato = Ddato;
 
             list_varDeclarada.Add(li);
-            GRID_VARS.Rows.Add(Dtipo, Dlexema, Ddato);
+            //GRID_VARS.Rows.Add(Dtipo, Dlexema, Ddato);
+            GRID_TABLE_SYMBOLS.Rows.Add("declaracion(" + Dtipo + ")", Dlexema);
             
             //restar
             Ddato = null;
@@ -1286,7 +1288,7 @@ namespace Compilador
             //Agregar el nombre del metodo a la lista de metodos declarados
             var li = new MetodosDeclarados();
             li.nombreDelMetodo = milista2[x].lexema;
-
+            GRID_TABLE_SYMBOLS.Rows.Add("metodo", milista2[x].lexema);
             list_metodosDeclarados.Add(li);
         }
 
@@ -1331,6 +1333,7 @@ namespace Compilador
             li.tipoDeVariable = tipoDeVariable;
             li.variable = nombreVariable;
             list_parametrosDeMetodos.Add(li);
+            GRID_TABLE_SYMBOLS.Rows.Add("parametro("+ tipoDeVariable + ")", nombreVariable);
         }
 
         public void comprobarTipoDeParametro( string nombreMetodo, string tipoDeParametro, int numeroDeParametro )

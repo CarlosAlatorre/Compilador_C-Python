@@ -308,6 +308,21 @@ namespace Compilador
             llenar.GRID_TOKENS = Dgv_Listatoken;
             llenar.GRID_ERRORESS = Rtb_errores;
             llenar.analizarLexico(fuente);
+
+            //string fuente = editor.Text;
+            //Lexico llenar = new Lexico();
+
+            llenar.GRID_TOKENS = Dgv_Listatoken;
+            llenar.GRID_ERRORESS = Rtb_errores;
+            llenar.analizarLexico(fuente);
+            GRID_TABLE_SYMBOLS.Rows.Clear();
+            Sintactico llamar = new Sintactico();
+            //GRID_VAR.Rows.Clear();
+            Rtb_errores.Rows.Clear();
+            llamar.GRID_ERRORES = Rtb_errores;
+            llamar.GRID_TABLE_SYMBOLS = GRID_TABLE_SYMBOLS;
+            //llamar.GRID_VARS = GRID_VAR;
+            llamar.Sintactic();
         }
 
         private void Panel_abrir_MouseClick(object sender, MouseEventArgs e)
