@@ -1279,7 +1279,6 @@ namespace Compilador
                     }else
                     {
                         estaDeclarada = false;
-                        lista_erroresSemanticos.Add("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
 
                     }
                 }
