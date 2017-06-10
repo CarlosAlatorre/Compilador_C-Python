@@ -56,7 +56,7 @@ namespace Compilador
         public string Ddato;
         public bool band_ComprobarVar = true;
         public bool band_ComprobarExistencia = false;
-        public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false, asignacionEnDeclaracion = false;
+        public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false, asignacionEnDeclaracion = false, estaDeclarada = false;
         public string nombreMetodo, tipoDeVariableAntesDeAsignar;
 
         public void Sintactic()
@@ -397,7 +397,15 @@ namespace Compilador
                 {
                     Dlexema = milista2[x - 1].lexema;
                     asignacionEnDeclaracion = true;
-                    agregarList();
+                    Buscar_Var(Dlexema);
+                    if (!estaDeclarada)
+                    {
+                        agregarList();
+                    }
+                    else
+                    {
+                        Dlexema = null;
+                    }
                     //x++;
                     Asignacion();
                     //x++;
@@ -1274,6 +1282,10 @@ namespace Compilador
 
         public void Buscar_Var(string Plexema)
         {
+            if(list_varDeclarada.Count == 0)
+            {
+                estaDeclarada = false;
+            }
             for (int i = 0; i < list_varDeclarada.Count; i++)
             {
                 if (band_ComprobarVar == true)
@@ -1281,6 +1293,11 @@ namespace Compilador
                     if (list_varDeclarada[i].lexema == Plexema)
                     {
                         MessageBox.Show("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
+                        estaDeclarada = true;
+                        break;
+                    }else
+                    {
+                        estaDeclarada = false;
                     }
                 }
                 else
