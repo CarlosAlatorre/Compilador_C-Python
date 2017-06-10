@@ -1006,6 +1006,7 @@ namespace Compilador
 
                 x++;
                 Valor();
+                esAsignacion = false;
             }
             else
             {
