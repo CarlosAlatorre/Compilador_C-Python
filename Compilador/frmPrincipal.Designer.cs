@@ -32,7 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.txterrores = new System.Windows.Forms.TextBox();
             this.Dgv_Listatoken = new System.Windows.Forms.DataGridView();
             this.ren = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,21 +52,12 @@
             this.GRID_TABLE_SYMBOLS = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lexe = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.list_erroresSemanticos = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Listatoken)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rtb_errores)).BeginInit();
             this.Panel_cabecera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GRID_TABLE_SYMBOLS)).BeginInit();
             this.SuspendLayout();
-            // 
-            // txterrores
-            // 
-            this.txterrores.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txterrores.Location = new System.Drawing.Point(12, 579);
-            this.txterrores.Multiline = true;
-            this.txterrores.Name = "txterrores";
-            this.txterrores.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txterrores.Size = new System.Drawing.Size(453, 164);
-            this.txterrores.TabIndex = 15;
             // 
             // Dgv_Listatoken
             // 
@@ -81,12 +71,12 @@
             this.lex,
             this.idtoken,
             this.tipo});
-            this.Dgv_Listatoken.Location = new System.Drawing.Point(565, 120);
+            this.Dgv_Listatoken.Location = new System.Drawing.Point(565, 113);
             this.Dgv_Listatoken.MultiSelect = false;
             this.Dgv_Listatoken.Name = "Dgv_Listatoken";
             this.Dgv_Listatoken.ReadOnly = true;
             this.Dgv_Listatoken.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dgv_Listatoken.Size = new System.Drawing.Size(443, 439);
+            this.Dgv_Listatoken.Size = new System.Drawing.Size(443, 446);
             this.Dgv_Listatoken.TabIndex = 14;
             this.Dgv_Listatoken.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Listatoken_CellContentClick);
             // 
@@ -126,12 +116,12 @@
             this.Rtb_errores.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.token,
             this.error});
-            this.Rtb_errores.Location = new System.Drawing.Point(471, 579);
+            this.Rtb_errores.Location = new System.Drawing.Point(745, 579);
             this.Rtb_errores.MultiSelect = false;
             this.Rtb_errores.Name = "Rtb_errores";
             this.Rtb_errores.ReadOnly = true;
             this.Rtb_errores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Rtb_errores.Size = new System.Drawing.Size(443, 164);
+            this.Rtb_errores.Size = new System.Drawing.Size(613, 166);
             this.Rtb_errores.TabIndex = 13;
             // 
             // token
@@ -168,7 +158,7 @@
             this.Panel_cabecera.Dock = System.Windows.Forms.DockStyle.Top;
             this.Panel_cabecera.Location = new System.Drawing.Point(0, 0);
             this.Panel_cabecera.Name = "Panel_cabecera";
-            this.Panel_cabecera.Size = new System.Drawing.Size(1300, 61);
+            this.Panel_cabecera.Size = new System.Drawing.Size(1370, 61);
             this.Panel_cabecera.TabIndex = 16;
             // 
             // Panel_cerrar
@@ -268,17 +258,18 @@
             this.GRID_TABLE_SYMBOLS.AllowUserToDeleteRows = false;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.PaleGreen;
             this.GRID_TABLE_SYMBOLS.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.GRID_TABLE_SYMBOLS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.GRID_TABLE_SYMBOLS.BackgroundColor = System.Drawing.Color.DarkGray;
             this.GRID_TABLE_SYMBOLS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GRID_TABLE_SYMBOLS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.lexe});
-            this.GRID_TABLE_SYMBOLS.Location = new System.Drawing.Point(1014, 120);
+            this.GRID_TABLE_SYMBOLS.Location = new System.Drawing.Point(1014, 113);
             this.GRID_TABLE_SYMBOLS.MultiSelect = false;
             this.GRID_TABLE_SYMBOLS.Name = "GRID_TABLE_SYMBOLS";
             this.GRID_TABLE_SYMBOLS.ReadOnly = true;
             this.GRID_TABLE_SYMBOLS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GRID_TABLE_SYMBOLS.Size = new System.Drawing.Size(344, 439);
+            this.GRID_TABLE_SYMBOLS.Size = new System.Drawing.Size(344, 446);
             this.GRID_TABLE_SYMBOLS.TabIndex = 17;
             // 
             // id
@@ -293,6 +284,18 @@
             this.lexe.Name = "lexe";
             this.lexe.ReadOnly = true;
             // 
+            // list_erroresSemanticos
+            // 
+            this.list_erroresSemanticos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.list_erroresSemanticos.FormattingEnabled = true;
+            this.list_erroresSemanticos.HorizontalScrollbar = true;
+            this.list_erroresSemanticos.ItemHeight = 18;
+            this.list_erroresSemanticos.Location = new System.Drawing.Point(12, 579);
+            this.list_erroresSemanticos.Name = "list_erroresSemanticos";
+            this.list_erroresSemanticos.ScrollAlwaysVisible = true;
+            this.list_erroresSemanticos.Size = new System.Drawing.Size(727, 166);
+            this.list_erroresSemanticos.TabIndex = 18;
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,9 +304,9 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1370, 772);
+            this.Controls.Add(this.list_erroresSemanticos);
             this.Controls.Add(this.GRID_TABLE_SYMBOLS);
             this.Controls.Add(this.Panel_cabecera);
-            this.Controls.Add(this.txterrores);
             this.Controls.Add(this.Dgv_Listatoken);
             this.Controls.Add(this.Rtb_errores);
             this.Controls.Add(this.TC_Pestañas);
@@ -316,13 +319,11 @@
             this.Panel_cabecera.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GRID_TABLE_SYMBOLS)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox txterrores;
         private System.Windows.Forms.DataGridView Dgv_Listatoken;
         private System.Windows.Forms.DataGridView Rtb_errores;
         private System.Windows.Forms.TabControl TC_Pestañas;
@@ -343,5 +344,6 @@
         private System.Windows.Forms.DataGridView GRID_TABLE_SYMBOLS;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn lexe;
+        private System.Windows.Forms.ListBox list_erroresSemanticos;
     }
 }

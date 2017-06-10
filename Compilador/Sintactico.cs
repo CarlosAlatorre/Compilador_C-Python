@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace Compilador
 {
@@ -58,6 +59,8 @@ namespace Compilador
         public bool band_ComprobarExistencia = false;
         public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false, asignacionEnDeclaracion = false, estaDeclarada = false;
         public string nombreMetodo, tipoDeVariableAntesDeAsignar;
+        public ArrayList lista_erroresSemanticos = new ArrayList();
+       
 
         public void Sintactic()
         {
@@ -72,7 +75,7 @@ namespace Compilador
 
             if (exito == 1)
             {
-                MessageBox.Show("Sintactico Completado Satisfactoriamente!");
+                lista_erroresSemanticos.Add("Sintactico Completado Satisfactoriamente!");
             }
         }
 
@@ -155,7 +158,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -218,7 +220,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
 
@@ -251,7 +252,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -342,7 +342,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -424,8 +423,7 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
-                base.GRID_ERRORESS.Rows.Add("Error", errores);
+                GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
 
@@ -464,7 +462,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -502,7 +499,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -640,7 +636,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show("" + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -656,7 +651,7 @@ namespace Compilador
 
                     if (tipoDeVariableAntesDeAsignar != obtenerTipoDeVariablePorToken(milista2[x].token))
                     {
-                        MessageBox.Show("ERROR: Compatibilidad de tipos, tiene que ser de tipo '" + tipoDeVariableAntesDeAsignar + "'");
+                        lista_erroresSemanticos.Add("ERROR: Compatibilidad de tipos, tiene que ser de tipo '" + tipoDeVariableAntesDeAsignar + "'");
                     }
                     
                 
@@ -684,7 +679,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show("" + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -731,7 +725,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -814,7 +807,6 @@ namespace Compilador
             if(bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -845,7 +837,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -897,7 +888,6 @@ namespace Compilador
             if(bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -951,7 +941,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -997,7 +986,6 @@ namespace Compilador
             if(bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1025,7 +1013,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1080,7 +1067,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1156,7 +1142,6 @@ namespace Compilador
             if(bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show("" + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1189,7 +1174,6 @@ namespace Compilador
             if(bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         } 
@@ -1222,7 +1206,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1248,7 +1231,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1275,7 +1257,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1292,12 +1273,14 @@ namespace Compilador
                 {
                     if (list_varDeclarada[i].lexema == Plexema)
                     {
-                        MessageBox.Show("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
+                        lista_erroresSemanticos.Add("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
                         estaDeclarada = true;
                         break;
                     }else
                     {
                         estaDeclarada = false;
+                        lista_erroresSemanticos.Add("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
+
                     }
                 }
                 else
@@ -1313,7 +1296,7 @@ namespace Compilador
             {
                 if(!band_ComprobarExistencia && !asignacionEnDeclaracion)
                 {
-                    MessageBox.Show("ERROR: La variable " + Plexema + " NO esta declarada!");
+                    lista_erroresSemanticos.Add("ERROR: La variable " + Plexema + " NO esta declarada!");
                     band_datoPerdido = true;
                 }
             }
@@ -1420,7 +1403,7 @@ namespace Compilador
                         }
                         if (!metodoSobrecargado)
                         {
-                            MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "' ya está declarado con los mismos parametros, intente poner parametros diferentes");
+                            lista_erroresSemanticos.Add("ERROR: el Metodo '" + nombreMetodo + "' ya está declarado con los mismos parametros, intente poner parametros diferentes");
 
                         }
                         metodoSobrecargado = false;
@@ -1438,7 +1421,7 @@ namespace Compilador
             {
                 if (soloBuscarExistencia)
                 {
-                    MessageBox.Show("ERROR: el Metodo '" + nombreMetodo + "'no está DECLARADO");
+                    lista_erroresSemanticos.Add("ERROR: el Metodo '" + nombreMetodo + "'no está DECLARADO");
                 }
                 else
                 {
@@ -1472,13 +1455,14 @@ namespace Compilador
                     {
                         if (list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable != tipoDeParametro)
                         {
-                            MessageBox.Show("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
+                            lista_erroresSemanticos.Add("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
                         }
                         break;
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
-                        MessageBox.Show("Error: Pusiste un parametro de más en la llamada del metodo");
+                        lista_erroresSemanticos.Add("Error: Pusiste un parametro de más en la llamada del metodo");
+                        //lista_erroresSemanticos.Add("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
                     }
                 }
 
@@ -1560,7 +1544,6 @@ namespace Compilador
             if (bandera == 1 && exito == 1)
             {
                 exito = 0;
-                MessageBox.Show(" " + errores);
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
@@ -1589,13 +1572,13 @@ namespace Compilador
             {
                 if (!esClaseHeredara)
                 {
-                    MessageBox.Show("ERROR: La clase '" + nombreClase + "' ya está declarada!");
+                    lista_erroresSemanticos.Add("ERROR: La clase '" + nombreClase + "' ya está declarada!");
                 }
             }
 
             if (esClaseHeredara && !claseDeclarada)
             {
-                MessageBox.Show("ERROR: La clase '" + nombreClase + "' que quieres heredar no existe!");
+                lista_erroresSemanticos.Add("ERROR: La clase '" + nombreClase + "' que quieres heredar no existe!");
             }
 
         }
