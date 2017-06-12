@@ -326,8 +326,8 @@ namespace Compilador
             list_erroresSemanticos.DataSource = llamar.lista_erroresSemanticos;
             if (llamar.lista_erroresSemanticos.Count == 0 )
             {
-                //System.IO.File.WriteAllText(@"C:\WriteText.asm", llamar.codigo_ensamblador);
-                System.IO.File.WriteAllText(@"C:\Users\Luis Bahena\Desktop\WriteText.asm", llamar.codigo_ensamblador);
+                System.IO.File.WriteAllText(@"C:\WriteText.asm", llamar.codigo_ensamblador);
+                //System.IO.File.WriteAllText(@"C:\Users\Luis Bahena\Desktop\WriteText.asm", llamar.codigo_ensamblador);
             }
             
 

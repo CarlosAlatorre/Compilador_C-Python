@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compilador", "Compilador\Compilador.csproj", "{5E8475E2-0977-4179-AD9A-A7D410D713AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNET", "..\Users\Luis Bahena\Desktop\Compilador\Compilador\Compilador\Resources\ScintillaNET\src\ScintillaNET\ScintillaNET.csproj", "{22AE2386-60F1-476E-9303-61CDB0AAC4CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNET", "..\Users\litoch\Desktop\CMPI\ScintillaNET-master\ScintillaNET-master\src\ScintillaNET\ScintillaNET.csproj", "{22AE2386-60F1-476E-9303-61CDB0AAC4CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

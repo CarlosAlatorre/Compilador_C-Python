@@ -56,7 +56,7 @@ namespace Compilador
         public string Dlexema;
         public string Ddato;
         public bool band_ComprobarVar = true;
-        public bool band_ComprobarExistencia = false;
+        public bool band_ComprobarExistencia = false, esPrimeraClase, esMetodo;
         public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false, asignacionEnDeclaracion = false, estaDeclarada = false;
         public string nombreMetodo, tipoDeVariableAntesDeAsignar;
         public ArrayList lista_erroresSemanticos = new ArrayList();
@@ -76,11 +76,13 @@ namespace Compilador
 
             libreria();
 
+            esPrimeraClase = true;
+
             Clases();
 
             if (exito == 1)
             {
-                lista_erroresSemanticos.Add("Sintactico Completado Satisfactoriamente!");
+                lista_erroresSemanticos.Add("Sintactico Completado!");
             }
         }
 
@@ -169,8 +171,9 @@ namespace Compilador
 
         public void Clases()
         {
-            if(milista2[x].token == -115 || milista2[x].token == -131) // public private
-            {
+            if (milista2[x].token == -115 || milista2[x].token == -131) // public private
+            { 
+                esPrimeraClase = false;
                 x++;
                 if(milista2[x].token == -104) // class
                 {
@@ -218,7 +221,11 @@ namespace Compilador
             }
             else
             {
-                
+                if (esPrimeraClase)
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un ALCANCE";
+                }
             }
 
 
@@ -343,6 +350,10 @@ namespace Compilador
                         }
                     }
                 }
+            }else if(milista2[x].token == -143) // CONSTRUCTOR
+            {
+                x++;
+                CONSTRUCTOR();
             }
             if (bandera == 1 && exito == 1)
             {
@@ -358,6 +369,9 @@ namespace Compilador
                 saveVariable_Igualacion = milista2[x].lexema;
                 if(milista2[x+1].token != -45 && milista2[x+1].token != -37)
                 {
+                   
+                    esMetodo = false;
+                    
                     buscarExistenciaDelMetodo(milista2[x].lexema, false);
                     nombreMetodo = milista2[x].lexema;
                 }
@@ -400,6 +414,7 @@ namespace Compilador
                 }
                 else
                 {
+                    esMetodo = false;
                     Dlexema = milista2[x - 1].lexema;
                     asignacionEnDeclaracion = true;
                     Buscar_Var(Dlexema);
@@ -432,6 +447,8 @@ namespace Compilador
 
                     //x++;
                     Varias_asig();
+
+                    esMetodo = true;
                     Metratrib();
 
                     asignacionEnDeclaracion = false;
@@ -458,7 +475,12 @@ namespace Compilador
                 if(milista2[x].token == -60) // ID
                 {
                     Dlexema = milista2[x].lexema;
-                    agregarList();
+                    asignacionEnDeclaracion = true;
+                    Buscar_Var(Dlexema);
+                    if (!estaDeclarada)
+                    {
+                        agregarList();
+                    }
                     x++;
                     Asignacion();
                     //x++;
@@ -474,9 +496,9 @@ namespace Compilador
             {
                 if(milista2[x].token == -45) // ;
                 {
-                    //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                   // codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
                     
-                    //codigo_ensamblador += "I_ASIGNAR " + saveVariable_Igualacion.ToString() + ", AX\n";
+                   // codigo_ensamblador += "I_ASIGNAR " + saveVariable_Igualacion.ToString() + ", AX\n";
                     cadena = "";
                     x++;
                 }
@@ -541,6 +563,16 @@ namespace Compilador
             else if (milista2[x].token == -113) // pregunta si el que sigue es FOR
             {
                 FOR();
+                Sentencias();
+            }else if(milista2[x].token == -140)
+            {
+                x++;
+                SWITCH();
+                Sentencias();
+            }else if(milista2[x].token == -128)
+            {
+                x++;
+                WHILE();
                 Sentencias();
             }
             else if (milista2[x].token == -132 || milista2[x].token == -133 || milista2[x].token == -134 || milista2[x].token == -135 || milista2[x].token == -136) // pregunta si el que sigue es PRIVATE O PUBLIC
@@ -992,6 +1024,10 @@ namespace Compilador
                         }
                         agregarList();
                     }
+                    else
+                    {
+                        agregarList();
+                    }
                     x++;
                 }
                 else
@@ -1123,7 +1159,7 @@ namespace Compilador
                     {
                         sideRightIF = cadena;
                         //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
-                        
+
                         //lista_expresiones.Add(cadena);
                         cadena = "";
                         isExp = false;
@@ -1351,9 +1387,8 @@ namespace Compilador
                         break;
                 }
 
-
                 //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
-                
+
                 cadena = "";
                 
                 x++;
@@ -1362,7 +1397,6 @@ namespace Compilador
                 // pregunta si es operador booleano AND OR y si no, resta 1 a x
                 if (milista2[x].token == -100 || milista2[x].token == -122) 
                 {
-
                     contar_expresiones++;
                     //cadena += milista2[x].lexema;
                     string operador_bool = milista2[x].lexema;
@@ -1469,7 +1503,7 @@ namespace Compilador
                     }else
                     {
                         estaDeclarada = false;
-                        lista_erroresSemanticos.Add("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
+                       // lista_erroresSemanticos.Add("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
 
                     }
                 }
@@ -1615,7 +1649,10 @@ namespace Compilador
                 }
                 else
                 {
-                    agregarNombreMetodoParaLista(nombreMetodo);
+                    if (esMetodo)
+                    {
+                        agregarNombreMetodoParaLista(nombreMetodo);
+                    }
                 }
 
             }
@@ -1691,6 +1728,20 @@ namespace Compilador
                     break;
                 }
 
+            }
+
+            if(tipo == "")
+            {
+                for (int i = 0; i < list_parametrosDeMetodos.Count; i++)
+                {
+
+                    if (list_parametrosDeMetodos[i].variable == nombreVariable && list_parametrosDeMetodos[i].metodoDeLaVariable == nombreMetodo)
+                    {
+                        tipo = list_parametrosDeMetodos[i].tipoDeVariable;
+                        break;
+                    }
+
+                }
             }
 
             return tipo;
@@ -1771,6 +1822,319 @@ namespace Compilador
                 lista_erroresSemanticos.Add("ERROR: La clase '" + nombreClase + "' que quieres heredar no existe!");
             }
 
+        }
+
+        public void CONSTRUCTOR()
+        {
+            if(milista2[x].token == -60) // ID
+            {
+                nombreMetodo = milista2[x].lexema;
+                x++;
+                if(milista2[x].token == -5) // .
+                {
+                    x++;
+                    if (milista2[x].token == -60) // ID
+                    {
+                        nombreMetodo = milista2[x].lexema;
+                        x++;
+                        CONSTRUCTUR_PARAMETROS();
+                    }
+                    else
+                    {
+                        bandera = 1;
+                        errores = "Error: Falto un ID";
+                    }
+                }
+                else
+                {
+                    x++;
+                    CONSTRUCTUR_PARAMETROS();
+                }
+            }
+            else
+            {
+                bandera = 1;
+                errores = "Error: Falto un ID";
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
+        }
+
+        public void CONSTRUCTUR_PARAMETROS()
+        {
+            if (milista2[x].token == -6) // (
+            {
+                x++;
+                Parametros();
+                if (milista2[x].token == -7) // )
+                {
+                    x++;
+                    if (milista2[x].token == -10) // {
+                    {
+                        x++;
+                        Sentencias();
+
+                        if (milista2[x].token == -11) // }
+                        {
+                            //Fin del constructor
+                            x++;
+                            Metratrib();
+                        }
+                        else
+                        {
+                            bandera = 1;
+                            errores = "Error: Se esperaba un }";
+                        }
+                    }
+                    else
+                    {
+                        bandera = 1;
+                        errores = "Error: Se esperaba un {";
+                    }
+                }
+                else
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un )";
+                }
+            }
+            else
+            {
+                bandera = 1;
+                errores = "Error: Se esperaba un (";
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
+        }
+
+        public void SWITCH()
+        {
+            if (milista2[x].token == -6) // (
+            {
+                x++;
+                if (milista2[x].token == -60) // ID
+                {
+                    x++;
+                    if (milista2[x].token == -7) // )
+                    {
+                        x++;
+                        if (milista2[x].token == -10) // {
+                        {
+                            x++;
+                            CASES();
+
+                            DEFAULT();
+
+                            if (milista2[x].token == -11) // }
+                            {
+                                //Fin del SWITCH
+                                x++;
+                            }
+                            else
+                            {
+                                bandera = 1;
+                                errores = "Error: Se esperaba un }";
+                            }
+
+                        }
+                        else
+                        {
+                            bandera = 1;
+                            errores = "Error: Se esperaba un {";
+                        }
+
+                    }
+                    else
+                    {
+                        bandera = 1;
+                        errores = "Error: Se esperaba un )";
+                    }
+
+                }
+                else
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un ID";
+                }
+
+            }
+            else
+            {
+                bandera = 1;
+                errores = "Error: Se esperaba un (";
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                //MessageBox.Show(" " + errores);
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
+        }
+
+        public void CASES()
+        {
+            if (milista2[x].token == -141) // CASE
+            {
+                x++;
+                //                       ID      NUMERO                     DECIMAL                  STRING COMILLAS
+                if (milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3 || milista2[x].token == -49)
+                {
+                    x++;
+                    if (milista2[x].token == -44) // :
+                    {
+                        x++;
+                        Sentencias();
+
+                        if (milista2[x].token == -103) //break
+                        {
+                            x++;
+                            if (milista2[x].token == -45) // ;
+                            {
+                                x++;
+                                if (milista2[x].token == -141) //CASE
+                                {
+                                    CASES();
+                                }
+                            }
+                            else
+                            {
+                                bandera = 1;
+                                errores = "Error: Se esperaba un ;";
+                            }
+                        }
+                        else
+                        {
+                            bandera = 1;
+                            errores = "Error: Se esperaba un BREAK";
+                        }
+                    }
+                    else
+                    {
+                        bandera = 1;
+                        errores = "Error: Se esperaba un :";
+                    }
+                }
+                else
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un ID NUMERO DECIMAL O COMILLAS";
+                }
+            }
+            else
+            {
+                // Puede no haber cases
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                //MessageBox.Show(" " + errores);
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
+        }
+
+        public void DEFAULT()
+        {
+            if (milista2[x].token == -142) //DEFAULT
+            {
+                x++;
+                if (milista2[x].token == -44) // :
+                {
+                    x++;
+                    Sentencias();
+
+                    if (milista2[x].token == -103) // BREAK
+                    {
+                        x++;
+                        if (milista2[x].token == -45) // ;
+                        {
+                            //Fin del DEFAULT
+                            x++;
+                        }
+                        else
+                        {
+                            bandera = 1;
+                            errores = "Error: Se esperaba un ;";
+                        }
+                    }
+                    else
+                    {
+                        bandera = 1;
+                        errores = "Error: Se esperaba un BREAK";
+                    }
+                }
+                else
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un :";
+                }
+            }
+            else
+            {
+                bandera = 1;
+                errores = "Error: Se esperaba un DEFAULT";
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                //MessageBox.Show(" " + errores);
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
+        }
+
+        public void WHILE()
+        {
+            if (milista2[x].token == -6) //(
+            {
+                x++;
+                COND();
+                if (milista2[x].token == -7) // )
+                {
+                    x++;
+                    if (milista2[x].token == -10) // {
+                    {
+                        x++;
+                        Sentencias();
+
+                        if (milista2[x].token == -11) // }
+                        {
+                            //fin de la sentencia WHILE
+                            x++;
+                        }
+                        else
+                        {
+                            bandera = 1;
+                            errores = "Error: Se esperaba un }";
+                        }
+                    }
+                    else
+                    {
+                        bandera = 1;
+                        errores = "Error: Se esperaba un {";
+                    }
+                }
+                else
+                {
+                    bandera = 1;
+                    errores = "Error: Se esperaba un )";
+                }
+            }
+            else
+            {
+                bandera = 1;
+                errores = "Error: Se esperaba un (";
+            }
+            if (bandera == 1 && exito == 1)
+            {
+                exito = 0;
+                //MessageBox.Show(" " + errores);
+                GRID_ERRORES.Rows.Add("Error", errores);
+            }
         }
     }
 }

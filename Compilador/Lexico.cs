@@ -331,6 +331,7 @@ namespace Compilador
                     break;
                 case '\n':
                     COL = 34;
+                    LINEA++;
                     break;
                 case '\t':
                     COL = 34;
@@ -503,6 +504,21 @@ namespace Compilador
                     break;
                 case "VOID":
                     toke = -138;
+                    break;
+                case "CATCH":
+                    toke = -139;
+                    break;
+                case "SWITCH":
+                    toke = -140;
+                    break;
+                case "CASE":
+                    toke = -141;
+                    break;
+                case "DEFAULT":
+                    toke = -142;
+                    break;
+                case "CONSTRUCTOR":
+                    toke = -143;
                     break;
                 default:
                     toke = -60;

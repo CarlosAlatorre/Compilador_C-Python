@@ -33,10 +33,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Dgv_Listatoken = new System.Windows.Forms.DataGridView();
-            this.ren = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idtoken = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rtb_errores = new System.Windows.Forms.DataGridView();
             this.token = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.error = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,6 +49,10 @@
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lexe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.list_erroresSemanticos = new System.Windows.Forms.ListBox();
+            this.tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idtoken = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ren = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Listatoken)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Rtb_errores)).BeginInit();
             this.Panel_cabecera.SuspendLayout();
@@ -67,10 +67,10 @@
             this.Dgv_Listatoken.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.Dgv_Listatoken.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Dgv_Listatoken.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ren,
-            this.lex,
+            this.tipo,
             this.idtoken,
-            this.tipo});
+            this.lex,
+            this.ren});
             this.Dgv_Listatoken.Location = new System.Drawing.Point(565, 113);
             this.Dgv_Listatoken.MultiSelect = false;
             this.Dgv_Listatoken.Name = "Dgv_Listatoken";
@@ -79,30 +79,6 @@
             this.Dgv_Listatoken.Size = new System.Drawing.Size(443, 446);
             this.Dgv_Listatoken.TabIndex = 14;
             this.Dgv_Listatoken.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Listatoken_CellContentClick);
-            // 
-            // ren
-            // 
-            this.ren.HeaderText = "Renglon";
-            this.ren.Name = "ren";
-            this.ren.ReadOnly = true;
-            // 
-            // lex
-            // 
-            this.lex.HeaderText = "Lexema";
-            this.lex.Name = "lex";
-            this.lex.ReadOnly = true;
-            // 
-            // idtoken
-            // 
-            this.idtoken.HeaderText = "Token ID";
-            this.idtoken.Name = "idtoken";
-            this.idtoken.ReadOnly = true;
-            // 
-            // tipo
-            // 
-            this.tipo.HeaderText = "Tipo";
-            this.tipo.Name = "tipo";
-            this.tipo.ReadOnly = true;
             // 
             // Rtb_errores
             // 
@@ -296,6 +272,30 @@
             this.list_erroresSemanticos.Size = new System.Drawing.Size(727, 166);
             this.list_erroresSemanticos.TabIndex = 18;
             // 
+            // tipo
+            // 
+            this.tipo.HeaderText = "Tipo";
+            this.tipo.Name = "tipo";
+            this.tipo.ReadOnly = true;
+            // 
+            // idtoken
+            // 
+            this.idtoken.HeaderText = "Token ID";
+            this.idtoken.Name = "idtoken";
+            this.idtoken.ReadOnly = true;
+            // 
+            // lex
+            // 
+            this.lex.HeaderText = "Lexema";
+            this.lex.Name = "lex";
+            this.lex.ReadOnly = true;
+            // 
+            // ren
+            // 
+            this.ren.HeaderText = "Renglon";
+            this.ren.Name = "ren";
+            this.ren.ReadOnly = true;
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -335,15 +335,15 @@
         private System.Windows.Forms.Panel Panel_guardarcomo;
         private System.Windows.Forms.Panel Panel_guardar;
         private System.Windows.Forms.Panel Panel_cerrar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ren;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lex;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idtoken;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tipo;
         private System.Windows.Forms.DataGridViewTextBoxColumn token;
         private System.Windows.Forms.DataGridViewTextBoxColumn error;
         private System.Windows.Forms.DataGridView GRID_TABLE_SYMBOLS;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn lexe;
         private System.Windows.Forms.ListBox list_erroresSemanticos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tipo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idtoken;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ren;
     }
 }
