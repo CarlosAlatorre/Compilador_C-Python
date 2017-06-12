@@ -65,7 +65,7 @@ namespace Compilador
         public ArrayList lista_expresiones = new ArrayList();
         cls_Arbol_Sintactico cls_arbol_sintactico = new cls_Arbol_Sintactico();
         public string codigo_ensamblador = "";
-        public int contador_ifs = 0;
+        public int contador_ifs = 1;
 
         public void Sintactic()
         {
@@ -355,6 +355,7 @@ namespace Compilador
         {
             if (milista2[x].token == -60)
             {
+                saveVariable_Igualacion = milista2[x].lexema;
                 if(milista2[x+1].token != -45 && milista2[x+1].token != -37)
                 {
                     buscarExistenciaDelMetodo(milista2[x].lexema, false);
@@ -412,6 +413,23 @@ namespace Compilador
                     }
                     //x++;
                     Asignacion();
+                    //if (cadena[0] != '"')
+                    //{
+                        
+                    //}
+                    string resultado = cls_arbol_sintactico.obtener(cadena);
+                    if (resultado != "")
+                    {
+                        codigo_ensamblador += resultado;
+                    }
+                    else
+                    {
+                        codigo_ensamblador += "MOV AX, " + cadena + "\n";
+                        codigo_ensamblador += "I_ASIGNAR " + saveVariable_Igualacion + ", AX\n";
+                    }
+                    cadena = "";
+                    
+
                     //x++;
                     Varias_asig();
                     Metratrib();
@@ -456,6 +474,10 @@ namespace Compilador
             {
                 if(milista2[x].token == -45) // ;
                 {
+                    //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                    
+                    //codigo_ensamblador += "I_ASIGNAR " + saveVariable_Igualacion.ToString() + ", AX\n";
+                    cadena = "";
                     x++;
                 }
                 else
@@ -528,12 +550,24 @@ namespace Compilador
             }
             else if (milista2[x].token == -60) // pregunta si el que sigue es ID
             {
+                saveVariable_Igualacion = milista2[x].lexema;
                 if (milista2[x + 1].token == -37) // // pregunta si el que sigue es =
                 {
                    
                     x++;
                     Asignacion();
-                    if (milista2[x].token == -45)
+                    string rr = cls_arbol_sintactico.obtener(cadena);
+                    if (rr != "")
+                    {
+                        codigo_ensamblador += rr;
+                    }
+                    else
+                    {
+                        codigo_ensamblador += "MOV AX, " + cadena + "\n";
+                        codigo_ensamblador += "I_ASIGNAR " + saveVariable_Igualacion + ", AX\n";
+                    }
+                    cadena = "";
+                    if (milista2[x].token == -45) // pregunta si sigue ;
                     {
                         esAsignacion = false;
                         x++;
@@ -652,14 +686,7 @@ namespace Compilador
             //pregunta si es ID NUMERO O DECIMAL
             if (milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3 || milista2[x].token == -49)
             {
-                if (isExp)
-                {
-                    //cadena += milista2[x].lexema;
-                }
-                else
-                {
-
-                }
+                
                 cadena += milista2[x].lexema;
                 
                 //Comprobar si este token es del mismo tipo que el token antes de asignacion
@@ -794,6 +821,20 @@ namespace Compilador
                 else {
                     //Tomando el dato 
                     Ddato = milista2[x].lexema;
+
+                    //if (esAsignacion)
+                    //{
+                    //    if (cadena.Length == 1)
+                    //    {
+                    //        codigo_ensamblador += "MOV AX, " + cadena;
+                    //    }
+                    //    else
+                    //    {
+                    //        codigo_ensamblador += milista2[x].lexema;
+                    //    }
+                    //}
+                    
+                    
                 }
                 //Metiendo todo a la lista
                 if (Dtipo != null && Dlexema != null)
@@ -985,6 +1026,22 @@ namespace Compilador
                 {
                     x++;
                     Valor();
+                    //if (cadena[0] != '"')
+                    //{
+                        
+                    //}
+                    string resultado = cls_arbol_sintactico.obtener(cadena);
+                    if (resultado != "")
+                    {
+                        codigo_ensamblador += resultado;
+                    }
+                    else
+                    {
+                        codigo_ensamblador += "MOV AX, " + cadena + "\n";
+                        codigo_ensamblador += "I_ASIGNAR, " + saveVariable_Igualacion + "AX\n";
+                    }
+                    cadena = "";
+                    
                     //x++;
                     if(milista2[x].token == -43)
                     {
@@ -1017,7 +1074,7 @@ namespace Compilador
             }
         }
 
-        string saveVariable_Igualacion = "";
+        public string saveVariable_Igualacion = "";
         public void Asignacion() // LISTO
         {
             if (milista2[x].token == -37) // =
@@ -1029,6 +1086,11 @@ namespace Compilador
                 esAsignacion = true;
                 x++;
                 Valor();
+                //if (cadena[0] != '"')
+                //{
+                    
+                //}
+                
                 esAsignacion = false;
             }
             else
@@ -1043,7 +1105,9 @@ namespace Compilador
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
-
+        string sideLeftIF = "";
+        string sideRightIF = "";
+       
         public void IF() //BIEN
         {
             if (milista2[x].token == -116) // IF
@@ -1057,18 +1121,23 @@ namespace Compilador
                    // x++;
                     if (milista2[x].token == -7) // )
                     {
-                        codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                        sideRightIF = cadena;
+                        //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                        
                         //lista_expresiones.Add(cadena);
                         cadena = "";
                         isExp = false;
                         x++;
                         if (milista2[x].token == -10) // {
                         {
+                            codigo_ensamblador += "\tCMP AX, 0\n";
+                            codigo_ensamblador += "\tInicioElse" + contador_ifs + "\n";
                             x++;
                             Sentencias();
                            // x++;
                             if (milista2[x].token == -11) // }
                             {
+                                codigo_ensamblador += "\tJMP FinalIF" + contador_ifs + "\n";
                                 x++;
                                 ELSE();
                             }
@@ -1102,9 +1171,11 @@ namespace Compilador
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
         }
-
+        int contador_for = 1;
+        string saveIncrementador = "";
         public void FOR()
         {
+            
             if (milista2[x].token == -113) // FOR
             {
                 x++;
@@ -1112,28 +1183,63 @@ namespace Compilador
                 {
                     x++;
                     DECASIG();
+                    string resultado = cls_arbol_sintactico.obtener(cadena);
+                    if (resultado != "")
+                    {
+                        codigo_ensamblador += resultado;
+                    }
+                    else
+                    {
+                        codigo_ensamblador += "MOV AX, " + cadena + "\n";
+                        codigo_ensamblador += "I_ASIGNAR " + saveVariable_Igualacion + ", AX\n";
+                    }
+                    cadena = "";
                     //x++;
                     if (milista2[x].token == -45) // ;
                     {
+                        codigo_ensamblador += "FOR" + contador_for +":\n";
                         x++;
                         COND();
+                        codigo_ensamblador += "MOV AX, $1\n";
+                        codigo_ensamblador += "\tCMP AX, 0\n";
+                        codigo_ensamblador += "JE FORFinal" + contador_for + "\n";
+                        //string gg = saveVariable_Igualacion;
+                        //string ww = cadena;
                         //x++;
                         if (milista2[x].token == -45) // ;
                         {
                             x++;
                             DECASIG();
+                            
+                            string resultado2 = cls_arbol_sintactico.obtener(cadena);
+                            if (resultado2 != "")
+                            {
+                                saveIncrementador += resultado2;
+                            }
+                            else
+                            {
+                                saveIncrementador += "MOV AX, " + cadena + "\n";
+                                saveIncrementador += "I_ASIGNAR " + saveVariable_Igualacion + ", AX\n";
+                            }
+
                             //x++;
                             if (milista2[x].token == -7) // )
                             {
                                 x++;
                                 if (milista2[x].token == -10) // {
                                 {
+                                    cadena = "";
                                     x++;
                                     Sentencias();
                                     //x++;
                                     if (milista2[x].token == -11) // }
                                     {
+                                        codigo_ensamblador += saveIncrementador;
+                                        codigo_ensamblador += "JMP FOR" + contador_for + "\n";
                                         x++;
+                                        codigo_ensamblador += "FORFinal"+contador_for+":\n";
+                                        contador_for++;
+                                        saveIncrementador = "";
                                     }
                                     else
                                     {
@@ -1182,6 +1288,7 @@ namespace Compilador
         {
             if(milista2[x].token == -109) // ELSE
             {
+                codigo_ensamblador += "InicioElse" + contador_ifs + "\n";
                 x++;
                 if(milista2[x].token == -10) // {
                 {
@@ -1190,6 +1297,8 @@ namespace Compilador
                     //x++;
                     if(milista2[x].token == -11) // }
                     {
+                        codigo_ensamblador += "FinalIF" + contador_ifs + "\n";
+                        contador_ifs++;
                         x++;
                     }
                     else
@@ -1208,26 +1317,43 @@ namespace Compilador
                 exito = 0;
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
-        } 
-
+        }
+        int contar_expresiones = 1;
         public void COND() // LISTO
         {
             Expresiones();
+
             //x++;
             //pregunta si hay una operacion logica == <= >= != 
             if(milista2[x].token == -26 || milista2[x].token == -34 || milista2[x].token == -32 || milista2[x].token == -39 || milista2[x].token == -35 || milista2[x].token == -38 || milista2[x].token == -42)
             {
-                if (isExp)
+                sideLeftIF = milista2[x - 1].lexema;
+                sideRightIF = milista2[x + 1].lexema;
+
+                switch (milista2[x].lexema)
                 {
-                    //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
-                    //lista_expresiones.Add(cadena);
-                    //cadena = º;
+                    case "==":
+                        codigo_ensamblador += "I_IGUAL " + sideLeftIF + ", " + sideRightIF + ", $" + contar_expresiones.ToString() + "\n";
+                        break;
+                    case "<=":
+                        codigo_ensamblador += "I_MENORIGUAL " + sideLeftIF + ", " + sideRightIF + ", $" + contar_expresiones.ToString() + "\n";
+                        break;
+                    case ">=":
+                        codigo_ensamblador += "I_MAYORIGUAL " + sideLeftIF + ", " + sideRightIF + ", $" + contar_expresiones.ToString() + "\n";
+                        break;
+                    case "<":
+                        codigo_ensamblador += "I_MENOR " + sideLeftIF + ", " + sideRightIF + ", $" + contar_expresiones.ToString() + "\n";
+                        break;
+                    case  ">":
+                        codigo_ensamblador += "I_MAYOR " + sideLeftIF + ", " + sideRightIF + ", $" + contar_expresiones.ToString() + "\n";
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
-                }
-                codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+
+
+                //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                
                 cadena = "";
                 
                 x++;
@@ -1236,17 +1362,24 @@ namespace Compilador
                 // pregunta si es operador booleano AND OR y si no, resta 1 a x
                 if (milista2[x].token == -100 || milista2[x].token == -122) 
                 {
-                    if (isExp)
-                    {
-                        //cadena += milista2[x].lexema;
-                    }
-                    else
-                    {
 
-                    }
-                    cadena += milista2[x].lexema;
-                   
+                    contar_expresiones++;
+                    //cadena += milista2[x].lexema;
+                    string operador_bool = milista2[x].lexema;
+
+                    x++;
                     COND();
+                    switch (operador_bool)
+                    {
+                        case "AND":
+                            codigo_ensamblador += "I_AND $1, $2, $3\n";
+                            codigo_ensamblador += "MOV AX, $3\n";
+                            break;
+                        case "OR":
+                            codigo_ensamblador += "I_OR $1, $2, $3\n";
+                            codigo_ensamblador += "MOV AX, $3\n";
+                            break;
+                    }   
                 }
                 else
                 {
@@ -1263,6 +1396,7 @@ namespace Compilador
                 exito = 0;
                 GRID_ERRORES.Rows.Add("Error", errores);
             }
+            cadena = "";
         }
 
         public void DECASIG() // LISTO
@@ -1275,6 +1409,7 @@ namespace Compilador
             {
                 if (milista2[x].token == -60)
                 {
+                    saveVariable_Igualacion = milista2[x].lexema;
                     Asignacion2();
                 }
                 else
