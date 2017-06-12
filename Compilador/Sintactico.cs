@@ -60,7 +60,12 @@ namespace Compilador
         public bool band_datoPerdido = false, esAsignacion = false, metodoSobrecargado = false, asignacionEnDeclaracion = false, estaDeclarada = false;
         public string nombreMetodo, tipoDeVariableAntesDeAsignar;
         public ArrayList lista_erroresSemanticos = new ArrayList();
-       
+
+        public bool isExp = false;
+        public ArrayList lista_expresiones = new ArrayList();
+        cls_Arbol_Sintactico cls_arbol_sintactico = new cls_Arbol_Sintactico();
+        public string codigo_ensamblador = "";
+        public int contador_ifs = 0;
 
         public void Sintactic()
         {
@@ -533,6 +538,7 @@ namespace Compilador
                         esAsignacion = false;
                         x++;
                         Sentencias();
+
                     }
                     else
                     {
@@ -640,11 +646,22 @@ namespace Compilador
             }
         }
 
+        public string cadena = "";
         public void Expresiones() //LISTOOOO AL 100%
         {
             //pregunta si es ID NUMERO O DECIMAL
             if (milista2[x].token == -60 || milista2[x].token == -2 || milista2[x].token == -3 || milista2[x].token == -49)
             {
+                if (isExp)
+                {
+                    //cadena += milista2[x].lexema;
+                }
+                else
+                {
+
+                }
+                cadena += milista2[x].lexema;
+                
                 //Comprobar si este token es del mismo tipo que el token antes de asignacion
                 if (esAsignacion)
                 {
@@ -663,6 +680,16 @@ namespace Compilador
                 //pregunta si es un operador + - * / y si no, resta 1 a x porque no entra
                 if(milista2[x].token == -13 || milista2[x].token == -15 || milista2[x].token == -19 || milista2[x].token == -21)
                 {
+                    if (isExp)
+                    {
+                        //cadena += milista2[x].lexema;
+                    }
+                    else
+                    {
+
+                    }
+                    cadena += milista2[x].lexema;
+                    
                     x++;
                     Expresiones();
                 }
@@ -990,16 +1017,16 @@ namespace Compilador
             }
         }
 
+        string saveVariable_Igualacion = "";
         public void Asignacion() // LISTO
         {
             if (milista2[x].token == -37) // =
             {
+                
                 band_ComprobarVar = false;
                 Buscar_Var(milista2[x - 1].lexema);
-
                 tipoDeVariableAntesDeAsignar = obtenerTipoDeVariableDeID(milista2[x - 1].lexema);
                 esAsignacion = true;
-
                 x++;
                 Valor();
                 esAsignacion = false;
@@ -1021,6 +1048,7 @@ namespace Compilador
         {
             if (milista2[x].token == -116) // IF
             {
+                isExp = true;
                 x++;
                 if (milista2[x].token == -6) // (
                 {
@@ -1029,6 +1057,10 @@ namespace Compilador
                    // x++;
                     if (milista2[x].token == -7) // )
                     {
+                        codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                        //lista_expresiones.Add(cadena);
+                        cadena = "";
+                        isExp = false;
                         x++;
                         if (milista2[x].token == -10) // {
                         {
@@ -1185,12 +1217,35 @@ namespace Compilador
             //pregunta si hay una operacion logica == <= >= != 
             if(milista2[x].token == -26 || milista2[x].token == -34 || milista2[x].token == -32 || milista2[x].token == -39 || milista2[x].token == -35 || milista2[x].token == -38 || milista2[x].token == -42)
             {
+                if (isExp)
+                {
+                    //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                    //lista_expresiones.Add(cadena);
+                    //cadena = º;
+                }
+                else
+                {
+                    //codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                }
+                codigo_ensamblador += cls_arbol_sintactico.obtener(cadena);
+                cadena = "";
+                
                 x++;
                 Expresiones();
                 //x++;
                 // pregunta si es operador booleano AND OR y si no, resta 1 a x
                 if (milista2[x].token == -100 || milista2[x].token == -122) 
                 {
+                    if (isExp)
+                    {
+                        //cadena += milista2[x].lexema;
+                    }
+                    else
+                    {
+
+                    }
+                    cadena += milista2[x].lexema;
+                   
                     COND();
                 }
                 else
@@ -1279,6 +1334,7 @@ namespace Compilador
                     }else
                     {
                         estaDeclarada = false;
+                        lista_erroresSemanticos.Add("ERROR: la variable '" + Plexema + "' ya esta DECLARADA!");
 
                     }
                 }
@@ -1372,7 +1428,7 @@ namespace Compilador
                                     }
                                 }catch(ArgumentOutOfRangeException e)
                                 {
-
+                                    Console.WriteLine(e.ToString());
                                 }
 
                                 //Antes de verificar el tipo de parametros checamos si tienen el mismo numero de parametros
@@ -1460,8 +1516,8 @@ namespace Compilador
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
+                        Console.WriteLine(e.ToString());
                         lista_erroresSemanticos.Add("Error: Pusiste un parametro de más en la llamada del metodo");
-                        //lista_erroresSemanticos.Add("ERROR: El tipo de parametro '" + list_parametrosDeMetodos[i + numeroDeParametro].variable + "'  del metodo '" + nombreMetodo + "' no coincide, tiene que ser de tipo '" + list_parametrosDeMetodos[i + numeroDeParametro].tipoDeVariable + "'");
                     }
                 }
 
